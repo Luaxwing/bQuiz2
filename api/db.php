@@ -5,7 +5,7 @@ session_start();
 class DB
 {
     // 定義class函數 "資料庫" "PDO" "TABLE"
-    protected $dsn = "mysql:host=localhost;charset=utf8;dbname=db91";
+    protected $dsn = "mysql:host=localhost;charset=utf8;dbname=db15";
     protected $pdo;
     protected $table;
     //$sql 放置MariaDB 的查找語句
@@ -204,16 +204,33 @@ function to($url)
 $Total = new DB('total');
 
 if(!isset($_SESSION['visited'])){
-    if($Total->count(['date'=>date('Y-m-d')])){   
+    if($Total->count(['date'=>date('Y-m-d')])>0){   
         $total=$Total->find(['date'=>date('Y-m-d')]);
         $total['total']++;
         $total->save($total);
     }else{
         $Total->save(['total'=>1,'date'=>date('Y-m-d')]);
     }
-    $_SESSION(['visited'])=1;
+
+    // $_SESSION(['visited']) = 1;
+    // wrong
+    
+    $_SESSION['visited'] = 1;
+
 }
 
+// if (!isset($_SESSION['visited'])) {
+//     if ($Total->count(['date' => date('Y-m-d')]) > 0) {
+//         $total = $Total->find(['date' => date('Y-m-d')]);
+//         $total['total']++;
+//         $Total->save($total);
+//     } else {
+//         $Total->save(['total' => 1, 'date' => date('Y-m-d')]);
+//     }
+
+//     $_SESSION['visited'] = 1;
+
+// }
 
 
 ?>
