@@ -20,10 +20,44 @@
         </tr>
         <tr>
             <td>
-                <input type="submit" value="註冊">
+                <input type="button" value="註冊" onclick="reg()">
                 <input type="reset" value="清除">
             </td>
             <td></td>
         </tr>
     </table>
 </fieldset>
+
+
+<script>
+
+    // console.log(user);
+
+    function reg(){
+    let user={acc:$("#acc").val(),
+              pw:$("#pw").val(),
+              pw2:$("#pw2").val(),
+              email:$("#email").val()
+            }
+    if(user.acc!='' && user.pw!='' && user.pw2!='' && user.email!=''){
+        if(user.pw==user.pw2){
+            $.post("./api/chk_acc.php",{acc:user.acc},(res)=>{
+                // console.log(res)
+                if(parseInt(res)==1){
+                    alert("帳號重覆")
+                }else{
+
+
+                    $.post('./api/reg.php',user,(res)=>{
+                        alert('註冊完成，歡迎加入');
+                    })
+                }
+            })
+        }else{
+            alert("密碼錯誤")
+        }
+    }else{
+        alert("不可空白")
+    }
+}
+</script>

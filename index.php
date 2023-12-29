@@ -23,7 +23,8 @@ include_once "api/db.php";
 	<iframe name="back" style="display:none;"></iframe>
 	<div id="all">
 		<div id="title">
-			<?= date("m月d日 l") ?> | 今日瀏覽: <?= $Total->find(['date' => date('Y-m-d')])['total'] ?> | 累積瀏覽:
+			<?= date("m月d日 l") ?> | 今日瀏覽:
+			<?= $Total->find(['date' => date('Y-m-d')])['total'] ?> | 累積瀏覽:
 			<?= $Total->sum('total'); ?>
 			<a href="index.php" style='float:right'>回首頁</a>
 		</div>
@@ -44,25 +45,32 @@ include_once "api/db.php";
 					<span style="width:18%; display:inline-block;">
 						<a href="?do=login">會員登入</a>
 					</span>
+
 					<div class="">
 						<?php
-	$do=$_GET['do']??'main';
-	$file="./front/{$do}.php";
-	if(file_exists($file)){
-		include $file;
-	}else{
-		include "./front/main.php";
-	}
+						// 
+						$do = $_GET['do'] ?? 'main';
+						// 
+						
+						$file = "./front/{$do}.php";
+
+						if (file_exists($file)) {
+							include $file;
+						} else {
+							include "./front/main.php";
+						}
 
 						?>
 					</div>
+
 				</div>
 			</div>
 		</div>
 		<div id="bottom">
 			本網站建議使用：IE9.0以上版本，1024 x 768 pixels 以上觀賞瀏覽 ， Copyright © 2012健康促進網社群平台 All Right Reserved
 			<br>
-			服務信箱：health@test.labor.gov.tw<img src="./home_files/02B02.jpg" width="45">
+			服務信箱：health@test.labor.gov.tw
+			<img src="./img/02B02.jpg" width="45">
 		</div>
 	</div>
 
