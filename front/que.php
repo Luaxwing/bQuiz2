@@ -26,6 +26,8 @@ foreach($ques as $key => $que){
                 <?php
             if(isset($_SESSION['user'])){
 echo "<a href='?do=vote&id={$que['id']}'>";
+echo "參與投票";
+echo "</a>";
             }else{
                 echo "請先登入";
             }
