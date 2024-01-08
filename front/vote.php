@@ -11,9 +11,10 @@ $que=$Que->find($_GET['id']);
 <?php 
 
 $opts=$Que->all(['subject_id'=>$_GET['id']]);
-foreach($opts as $opt){
+foreach($opts as $key=>$opt){
     echo "<div>";
-    echo "<input type='radio' name='opt' value='{$opt['id']}'>";
+    $checkOpt=($key==0)?"checked":"";
+    echo "<input type='radio' id='vote[]' name='opt' value='{$opt['id']}' $checkOpt>";
     echo $opt['text'];
     echo "</div>";
 }
