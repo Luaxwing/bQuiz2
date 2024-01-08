@@ -22,7 +22,7 @@ class DB
         $sql = $this->sql_all($sql, $where, $other);
         return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }
-            /**
+    /**
      * 可輸入各式SQL語法字串並直接執行
      */
     function q($sql)
@@ -200,6 +200,7 @@ $Total = new DB('total');
 $User = new DB('user');
 $News = new DB('news');
 $Que = new DB('que');
+$Log = new DB('log');
 
 if (!isset($_SESSION['visited'])) {
     if ($Total->count(['date' => date('Y-m-d')]) > 0) {

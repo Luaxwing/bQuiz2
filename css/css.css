@@ -307,3 +307,6 @@ cursor:default;
 .myTitle{
 	background-color: rgb(255, 217, 203);
 }
+.myBtn{
+	cursor: pointer;
+}

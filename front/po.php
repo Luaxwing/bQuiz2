@@ -1,73 +1,79 @@
-<style>
-    .type-item{
-        display: block;
-        margin: 3px 6px;
-    }
-    .types,.news-list{
-        display: inline-block;
-        vertical-align: top;
-    }
-    .news-list{
-        width: 600px;
-    }
-</style>
-
 <fieldset>
-<legend>目前位置:首頁>分類網誌>慢性病防治 <span class="type">健康新知</span> </legend>
-<fieldset class="types">
+    <legend>目前位置:首頁 > 人氣文章區</legend>
+    <table style="width:95%;margin:auto">
+        <tr>
+            <th width="30%">標題</th>
+            <th width="50%">內容</th>
+            <th>人氣</th>
+        </tr>
+        <?php 
+        $total=$News->count(['sh'=>1]);
+        $div=5;
+        $pages=ceil($total/$div);
+        $now=$_GET['p']??1;
+        $start=($now-1)*$div;
 
-    <legend>分類網誌</legend>
-    <a class="type-item" data-id="1">健康新知</a>
-    <a class="type-item" data-id="2">菸害防治</a>
-    <a class="type-item" data-id="3">癌症防治</a>
-    <a class="type-item" data-id="4">慢性病防治</a>
+        $rows=$News->all(['sh'=>1]," order by `good` desc limit $start,$div");
+        foreach($rows as $row){
+        ?>
+        <tr>
+            <td>
+                <div class='title' data-id="<?=$row['id'];?>">
+                    <?=$row['title'];?>
+                </div>
+            </td>
+            <td style="position: relative;">
+                <div>
+                    <?=mb_substr($row['news'],0,25);?>...
+                </div>
+                <div id="p<?=$row['id'];?>" class="pop">
+                    <h3 style='color:skyblue'><?=$row['title'];?></h3>
+		            <pre><?=$row['news'];?></pre>
+	            </div>
+            </td>
+            <td>
+                <span id="g<?=$row['id'];?>"><?=$row['good'];?></span>個人說
+                <img src="./icon/02B03.jpg" style="width:25px">
+                <?php
+                if(isset($_SESSION['user'])){
+                    if($Log->count(['news'=>$row['id'],'acc'=>$_SESSION['user']])>0){
+                        echo "<a href='Javascript:good({$row['id']})'>收回讚</a>";
+                    }else{
+                        echo "<a href='Javascript:good({$row['id']})'>讚</a>";
+                    }
+                }
+
+                ?>
+            </td>
+        </tr>
+        <?php
+        }
+        ?>
+    </table>
+    <div>
+    <?php
+    if(($now-1)>0){
+        $prev=$now-1;
+        echo "<a href='?do=pop&p=$prev'> < </a>";
+    }
+    for($i=1;$i<=$pages;$i++){
+        $fontsize=($now==$i)?"font-size:20px":"font-size:16px";
+        echo "<a href='?do=pop&p=$i' style='$fontsize'> $i </a>";
+    }
+    if(($now+1)<=$pages){
+        $next=$now+1;
+        echo "<a href='?do=pop&p=$next'> > </a>";
+    }
+    ?>
+    </div>    
 </fieldset>
-
-<fieldset class='news-list'>
-    <legend>文章列表</legend>
-    <div class="list-items" style="display:none;">
-
-    </div>
-    <div class="article" ></div>
-</fieldset>
-</fieldset>
-
 <script>
-
-    getList(1)
-
-
-
-
-$(".type-item").on('click',function(){
-    $(".type").text($(this).text())
-    let type=$(this).data('id')
-    getList(type)
-
-
-})
-
-function getList(type){
-$.get("./api/get_list.php",{type},(list)=>{
-    $(".list-items").html(list)
-    // $('.article,.list-items').toggle();
-    $(".article").hide();
-    $(".list-items").show();
-
-
-})
-}
-// function getlist()
-
-function getNews(id){
-$.get("./api/get_news.php",{id},(news)=>{
-    $('.article').html("<pre>"+news+"</pre>");
-    // $('.article,.list-items').toggle();
-    $(".article").show();
-    $(".list-items").hide();
-
-
-})
-}
+$(".title").hover(
+    function(){
+        $(".pop").hide()
+        let id=$(this).data("id")
+        $("#p"+id).show();
+    }
+)
 
 </script>
