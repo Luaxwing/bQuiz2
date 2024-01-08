@@ -297,3 +297,13 @@ cursor:default;
 	right:0px;
 	margin:auto;
 }
+
+.myTable{
+	width: 95%;
+	margin: auto;
+}
+
+
+.myTitle{
+	background-color: rgb(255, 217, 203);
+}
